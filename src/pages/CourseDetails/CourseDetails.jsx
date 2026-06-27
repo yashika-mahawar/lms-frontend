@@ -3,8 +3,9 @@ import "./CourseDetails.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import courseImage from "../../assets/Course1.jpg";
-
+import { useNavigate } from "react-router-dom";
 function CourseDetails() {
+    const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -59,7 +60,12 @@ function CourseDetails() {
             <li>Modern Computer Labs</li>
           </ul>
 
-          <button className="enroll-btn">Enroll Now</button>
+          <button
+  className="enroll-btn"
+  onClick={() => navigate("/payment")}
+>
+  Enroll Now
+</button>
         </div>
       </section>
 
