@@ -1,54 +1,126 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Payment.css";
+import { enrollCourse } from "../../utils/enroll";
+
 function Payment() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const course = location.state?.course;
+  const [method, setMethod] = useState("upi");
+
+  // safety check
+  if (!course) {
+    return <h2 style={{ textAlign: "center" }}>No Course Selected</h2>;
+  }
+
+  const handlePayment = () => {
+    // 🔥 SAVE COURSE TO MY COURSES
+    enrollCourse(course);
+
+    // 🔥 GO TO SUCCESS PAGE
+    navigate("/payment-success", { state: { course } });
+  };
+
   return (
     <div className="payment-page">
-
       <h1>Complete Your Payment</h1>
 
       <div className="payment-container">
 
-        {/* LEFT - COURSE INFO */}
+        {/* LEFT SIDE */}
         <div className="payment-left">
-          <h2>Selected Course</h2>
+          <h2>🎓 Selected Course</h2>
 
           <div className="course-box">
-            <h3>B.Tech Computer Science</h3>
-            <p>Duration: 4 Years</p>
-            <p className="price">₹49,999</p>
+            <h3>{course.title}</h3>
+            <p>Duration: {course.duration}</p>
+            <p className="price">{course.fee}</p>
           </div>
 
           <div className="summary">
-            <p>Subtotal: ₹49,999</p>
+            <p>Subtotal: {course.fee}</p>
             <p>GST: ₹0</p>
             <hr />
-            <h3>Total: ₹49,999</h3>
+            <h3>Total: {course.fee}</h3>
           </div>
         </div>
 
-        {/* RIGHT - PAYMENT FORM */}
+        {/* RIGHT SIDE */}
         <div className="payment-right">
-          <h2>Payment Details</h2>
+          <h2>💳 Payment Method</h2>
 
-          <form>
-            <input type="text" placeholder="Card Holder Name" />
-            <input type="text" placeholder="Card Number" />
-            <div className="row">
-              <input type="text" placeholder="Expiry Date" />
-              <input type="text" placeholder="CVV" />
-            </div>
+          <div className="payment-options">
+            <button
+              className={method === "upi" ? "active" : ""}
+              onClick={() => setMethod("upi")}
+            >
+              UPI
+            </button>
 
             <button
-  type="button"
-  onClick={() => navigate("/payment-success")}
->
-  Pay Now
-</button>
-          </form>
+              className={method === "card" ? "active" : ""}
+              onClick={() => setMethod("card")}
+            >
+              Card
+            </button>
+
+            <button
+              className={method === "netbanking" ? "active" : ""}
+              onClick={() => setMethod("netbanking")}
+            >
+              Net Banking
+            </button>
+          </div>
+
+          {/* UPI */}
+          {method === "upi" && (
+            <div className="form-box">
+              <input type="text" placeholder="Enter UPI ID (example@upi)" />
+
+              <button onClick={handlePayment}>
+                Pay via UPI
+              </button>
+            </div>
+          )}
+
+          {/* CARD */}
+          {method === "card" && (
+            <div className="form-box">
+              <input type="text" placeholder="Card Holder Name" />
+              <input type="text" placeholder="Card Number" />
+
+              <div className="row">
+                <input type="text" placeholder="Expiry" />
+                <input type="text" placeholder="CVV" />
+              </div>
+
+              <button onClick={handlePayment}>
+                Pay by Card
+              </button>
+            </div>
+          )}
+
+          {/* NET BANKING */}
+          {method === "netbanking" && (
+            <div className="form-box">
+              <select>
+                <option>Select Bank</option>
+                <option>SBI</option>
+                <option>HDFC</option>
+                <option>ICICI</option>
+                <option>Axis Bank</option>
+              </select>
+
+              <button onClick={handlePayment}>
+                Pay via Net Banking
+              </button>
+            </div>
+          )}
 
           <p className="note">
-            Secure payment powered by LMS Platform
+            🔒 Secure payment powered by ICFAI LMS System
           </p>
         </div>
 

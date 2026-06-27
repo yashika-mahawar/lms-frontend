@@ -83,11 +83,11 @@ function CourseDetails() {
           </ul>
 
           <button
-            className="enroll-btn"
-            onClick={() => navigate("/payment")}
-          >
-            🚀 Enroll Now
-          </button>
+  className="enroll-btn"
+  onClick={() => navigate("/payment", { state: { course } })}
+>
+  Enroll Now
+</button>
 
         </div>
       </section>

@@ -1,48 +1,101 @@
 import "./Learning.css";
-import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
+import { useState, useEffect } from "react";
 
 function Learning() {
-  return (
-    <>
-      <Navbar />
+  const course = JSON.parse(localStorage.getItem("activeCourse"));
 
+  const [progress, setProgress] = useState(course?.progress || 0);
+  const [completed, setCompleted] = useState(false);
+
+  const modules = [
+    "Introduction",
+    "Basics",
+    "Core Concepts",
+    "Advanced Topics",
+    "Project Work",
+  ];
+
+  useEffect(() => {
+    if (!course) {
+      setCompleted(true);
+    }
+  }, []);
+
+  const markComplete = () => {
+    if (progress < 100) {
+      const newProgress = progress + 20;
+      setProgress(newProgress);
+
+      // update localStorage myCourses
+      let myCourses =
+        JSON.parse(localStorage.getItem("myCourses")) || [];
+
+      myCourses = myCourses.map((c) =>
+        c.id === course.id ? { ...c, progress: newProgress } : c
+      );
+
+      localStorage.setItem("myCourses", JSON.stringify(myCourses));
+
+      if (newProgress >= 100) {
+        setCompleted(true);
+      }
+    }
+  };
+
+  if (!course) {
+    return (
       <div className="learning-page">
+        <h2>No Course Selected</h2>
+      </div>
+    );
+  }
 
-        {/* LEFT VIDEO SECTION */}
-        <div className="video-section">
-          <h2>Now Playing: Introduction to CSE</h2>
+  return (
+    <div className="learning-page">
 
-          <div className="video-box">
-            <iframe
-              width="100%"
-              height="400"
-              src="https://www.youtube.com/embed/9bZkp7q19f0"
-              title="video"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
+      <h1>{course.title}</h1>
 
-        {/* RIGHT SYLLABUS */}
-        <div className="syllabus">
-          <h3>Course Syllabus</h3>
-
-          <ul>
-            <li>✔ Introduction</li>
-            <li>✔ Basics of Programming</li>
-            <li>✔ Data Structures</li>
-            <li>✔ Algorithms</li>
-            <li>✔ Database Systems</li>
-          </ul>
-
-          <button>Next Lesson →</button>
-        </div>
-
+      {/* VIDEO SECTION (dummy youtube) */}
+      <div className="video-box">
+        <iframe
+          width="100%"
+          height="400"
+          src="https://www.youtube.com/embed/1Ne1hqOXKKI"
+          title="Learning Video"
+        ></iframe>
       </div>
 
-      <Footer />
-    </>
+      {/* PROGRESS BAR */}
+      <div className="progress-section">
+        <h3>Progress: {progress}%</h3>
+
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* MODULES */}
+      <div className="modules">
+        <h3>Syllabus</h3>
+        <ul>
+          {modules.map((m, i) => (
+            <li key={i}>📘 {m}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ACTION BUTTON */}
+      <button
+        className="complete-btn"
+        onClick={markComplete}
+        disabled={completed}
+      >
+        {completed ? "Course Completed 🎉" : "Mark as Complete"}
+      </button>
+    </div>
   );
 }
 
