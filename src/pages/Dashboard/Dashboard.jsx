@@ -1,116 +1,140 @@
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
+
 function Dashboard() {
   return (
     <div className="dashboard">
 
-      {/* Sidebar */}
+      {/* SIDEBAR */}
       <aside className="sidebar">
-  <h2>ICFAI LMS</h2>
 
-  <ul>
-    <li>
-      <Link to="/dashboard">🏠 Dashboard</Link>
-    </li>
-
-    <li>
-      <Link to="/my-courses">📚 My Courses</Link>
-    </li>
-
-    <li>
-      <Link to="/schedule">📅 Schedule</Link>
-    </li>
-
-    <li>
-      <Link to="/assignments">📄 Assignments</Link>
-    </li>
-
-    <li>
-      <Link to="/certificates">🏆 Certificates</Link>
-    </li>
-
-    <li>
-      <Link to="/profile">👤 Profile</Link>
-    </li>
-
-    <li>
-      <Link to="/login">🚪 Logout</Link>
-    </li>
-  </ul>
-</aside>
-
-      {/* Main Content */}
-      <main className="main-content">
-
-        <div className="welcome-card">
-          <h1>Welcome, Student 👋</h1>
-          <p>
-            Continue your learning journey with ICFAI University.
-          </p>
+        <div className="logo">
+          🎓 ICFAI LMS
         </div>
 
-        {/* Statistics */}
-        <div className="stats">
+        <div className="profile">
+          <div className="avatar">👩‍🎓</div>
+          <h3>Student Panel</h3>
+          <p>Keep learning everyday 🚀</p>
+        </div>
 
-          <div className="stat-card">
+        <nav>
+          <Link to="/dashboard">🏠 Dashboard</Link>
+          <Link to="/my-courses">📚 My Courses</Link>
+          <Link to="/schedule">📅 Schedule</Link>
+          <Link to="/assignments">📄 Assignments</Link>
+          <Link to="/certificates">🏆 Certificates</Link>
+          <Link to="/profile">👤 Profile</Link>
+          <Link to="/login">🚪 Logout</Link>
+        </nav>
+
+      </aside>
+
+      {/* MAIN */}
+      <main className="main">
+
+        {/* HEADER */}
+        <section className="header">
+          <h1>Welcome Back 👋</h1>
+          <p>Your learning journey continues here</p>
+
+          <div className="actions">
+            <button>📚 Continue Learning</button>
+            <button>📅 Schedule</button>
+            <button>📄 Assignments</button>
+          </div>
+        </section>
+
+        {/* STATS */}
+        <section className="stats">
+
+          <div className="card">
             <h2>3</h2>
-            <p>My Courses</p>
+            <p>Active Courses</p>
           </div>
 
-          <div className="stat-card">
+          <div className="card">
             <h2>75%</h2>
-            <p>Progress</p>
+            <p>Overall Progress</p>
           </div>
 
-          <div className="stat-card">
+          <div className="card">
             <h2>2</h2>
             <p>Certificates</p>
           </div>
 
-        </div>
-
-        {/* My Courses */}
-        <section className="dashboard-section">
-          <h2>My Courses</h2>
-
-          <div className="course-box">
-            <h3>B.Tech Computer Science</h3>
-            <button>Continue Learning</button>
-          </div>
-
-          <div className="course-box">
-            <h3>MBA</h3>
-            <button>Continue Learning</button>
+          <div className="card">
+            <h2>5</h2>
+            <p>Upcoming Classes</p>
           </div>
 
         </section>
 
-        {/* Upcoming Classes */}
-        <section className="dashboard-section">
-          <h2>Upcoming Classes</h2>
+        {/* PROGRESS */}
+        <section className="section">
 
-          <div className="class-box">
-            <p>📅 Web Development</p>
-            <span>Today • 2:00 PM</span>
+          <h2>🔥 Your Courses</h2>
+
+          <div className="course">
+
+            <div className="course-info">
+              <h3>B.Tech CSE</h3>
+              <p>AI • Web Dev • Data Science</p>
+            </div>
+
+            <div className="bar">
+              <div className="fill" style={{ width: "80%" }}></div>
+            </div>
+
+            <span>80% completed</span>
+
           </div>
 
-          <div className="class-box">
-            <p>📅 Java Programming</p>
-            <span>Tomorrow • 11:00 AM</span>
+          <div className="course">
+
+            <div className="course-info">
+              <h3>MBA</h3>
+              <p>Marketing • Finance • HR</p>
+            </div>
+
+            <div className="bar">
+              <div className="fill" style={{ width: "55%" }}></div>
+            </div>
+
+            <span>55% completed</span>
+
           </div>
 
         </section>
 
-        {/* Announcements */}
-        <section className="dashboard-section">
-          <h2>Announcements</h2>
+        {/* UPCOMING */}
+        <section className="section">
 
-          <div className="announcement">
-            Assignment 1 has been uploaded.
+          <h2>📅 Upcoming Classes</h2>
+
+          <div className="item">
+            <p>Web Development</p>
+            <small>Today • 2:00 PM</small>
           </div>
 
-          <div className="announcement">
-            Mid Semester Examination starts next week.
+          <div className="item">
+            <p>Java Programming</p>
+            <small>Tomorrow • 11:00 AM</small>
+          </div>
+
+        </section>
+
+        {/* NOTICE */}
+        <section className="section">
+
+          <h2>📢 Announcements</h2>
+
+          <div className="notice">
+            Assignment 1 is live now 🚀
+          </div>
+
+          <div className="notice">
+            Mid Semester Exams next week ⚡
           </div>
 
         </section>
