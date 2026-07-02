@@ -8,19 +8,44 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [skills, setSkills] = useState(['React.js', 'UI/UX Design', 'Project Management']);
   
-  // Image upload ke liye states
-  const fileInputRef = useRef(null);
-  const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage') || null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("currentUser");
+    return savedUser ? JSON.parse(savedUser) : { name: "", email: "", phone: "", profileImage: "" };
+  });
 
-  // Image change handle karne ka function
+  // IMPORTANT: Yeh useEffect ensure karega ki agar tumne 
+  // EditProfile se data change kiya, toh Profile page turant update ho jaye
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const savedUser = localStorage.getItem("currentUser");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+    };
+
+    // 'storage' event tab trigger hota hai jab localStorage update hota hai
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Har 500ms mein check karega agar naam change hua hai (fallback for same-tab updates)
+    const interval = setInterval(handleStorageChange, 500);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fileInputRef = useRef(null);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Image = reader.result;
-        setProfileImage(base64Image);
-        localStorage.setItem('profileImage', base64Image); // Photo yahan save ho gayi
+        const updatedUser = { ...user, profileImage: base64Image };
+        setUser(updatedUser);
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
       };
       reader.readAsDataURL(file);
     }
@@ -35,7 +60,6 @@ const Profile = () => {
       <div style={{ flex: 1, padding: '40px 32px', overflowY: 'auto' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           
-          {/* Enhanced Hero Section */}
           <div style={{ 
             background: 'linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)', 
             borderRadius: '28px', padding: '48px', color: 'white', marginBottom: '32px', 
@@ -43,16 +67,14 @@ const Profile = () => {
             boxShadow: '0 20px 25px -5px rgba(79, 70, 229, 0.3)'
           }}>
             <div style={{ position: 'relative' }}>
-              {/* Profile Image Container */}
               <div style={{ width: '130px', height: '130px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '5px solid rgba(255,255,255,0.3)', overflow: 'hidden' }}>
-                {profileImage ? (
-                  <img src={profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                {user.profileImage ? (
+                  <img src={user.profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
                   <FaUserCircle size={130} color="#cbd5e1" />
                 )}
               </div>
               
-              {/* Hidden File Input */}
               <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -61,7 +83,6 @@ const Profile = () => {
                 accept="image/*" 
               />
 
-              {/* Camera Button */}
               <button 
                 onClick={() => fileInputRef.current.click()} 
                 style={{ position: 'absolute', bottom: '5px', right: '5px', background: '#4f46e5', border: '2px solid #fff', borderRadius: '50%', padding: '10px', cursor: 'pointer', color: '#fff' }}
@@ -71,19 +92,12 @@ const Profile = () => {
             </div>
             
             <div>
-              <h1 style={{ margin: '0', fontSize: '2.5rem', letterSpacing: '-0.02em' }}>Yashika</h1>
+              {/* Ab yahan wahi naam aayega jo tumne Signup ya EditProfile mein dala hai */}
+              <h1 style={{ margin: '0', fontSize: '2.5rem', letterSpacing: '-0.02em' }}>{user.name || "User Name"}</h1>
               <p style={{ margin: '8px 0', fontSize: '1.1rem', opacity: '0.9' }}>B.Tech Computer Science | ICFAI University</p>
-              <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
-                {[FaLinkedin, FaGithub, FaGlobe].map((Icon, i) => (
-                  <button key={i} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', padding: '10px', borderRadius: '12px', color: '#fff', cursor: 'pointer', transition: '0.3s' }}>
-                    <Icon size={18} />
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
 
-          {/* Main Card Section */}
           <div style={{ background: '#fff', borderRadius: '28px', padding: '40px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}>
             <div style={{ display: 'flex', gap: '40px', borderBottom: '2px solid #f8fafc', marginBottom: '32px' }}>
               {['profile', 'password'].map((tab) => (
@@ -104,20 +118,6 @@ const Profile = () => {
             {activeTab === 'profile' ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
                 <EditProfile />
-                <div style={{ background: '#fcfcfd', padding: '32px', borderRadius: '20px', border: '1px solid #f1f5f9' }}>
-                  <h4 style={{ margin: '0 0 16px 0', color: '#1e293b' }}>Professional Bio</h4>
-                  <p style={{ color: '#64748b', fontSize: '0.95rem', lineHeight: '1.6' }}>Passionate web developer and design enthusiast. Building impactful digital experiences at ICFAI.</p>
-                  
-                  <h4 style={{ margin: '32px 0 16px 0', color: '#1e293b' }}>Skills</h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                    {skills.map((skill, i) => (
-                      <span key={i} style={{ background: '#eef2ff', color: '#4f46e5', padding: '8px 16px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '600' }}>{skill}</span>
-                    ))}
-                    <button style={{ border: '2px dashed #cbd5e1', background: 'transparent', borderRadius: '12px', padding: '8px 16px', cursor: 'pointer', color: '#64748b' }}>
-                      <FaPlus size={12} />
-                    </button>
-                  </div>
-                </div>
               </div>
             ) : (
               <div style={{ padding: '20px 0' }}>

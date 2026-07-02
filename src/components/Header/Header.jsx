@@ -4,14 +4,34 @@ import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
 
 function Header() {
   const [showProfileBox, setShowProfileBox] = useState(false);
-  const [profileImage, setProfileImage] = useState(localStorage.getItem('profileImage'));
+ const [user, setUser] = useState(() => {
+  const savedUser = localStorage.getItem("currentUser");
 
-  // Jab bhi storage change ho, image update ho jaye
-  useEffect(() => {
-    const handleStorage = () => setProfileImage(localStorage.getItem('profileImage'));
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+  return savedUser
+    ? JSON.parse(savedUser)
+    : {
+        name: "Guest",
+        profileImage: "",
+      };
+});
+
+useEffect(() => {
+  const updateUser = () => {
+    const savedUser = localStorage.getItem("currentUser");
+
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  };
+
+  updateUser();
+
+  window.addEventListener("userUpdated", updateUser);
+
+  return () => {
+    window.removeEventListener("userUpdated", updateUser);
+  };
+}, []);
 
   return (
     <header className="dashboard-header" style={{ position: "relative" }}>
@@ -34,14 +54,15 @@ function Header() {
           style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "10px" }}
         >
           <div className="profile-avatar-wrapper" style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden' }}>
-            {profileImage ? (
-              <img src={profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {user.profileImage ? (
+              <img src={user.profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               <FaUserCircle className="avatar-svg" size={40} color="#cbd5e1" />
             )}
           </div>
           <div className="profile-info-text">
-            <span className="user-name">Yashika</span>
+            {/* Yahan 'Yashika' ki jagah dynamic {userName} use kiya hai */}
+            <span className="user-name">{user.name}</span>
             <span className="user-role">Student Portal</span>
           </div>
         </div>
@@ -64,9 +85,9 @@ function Header() {
             }}
           >
             <div style={{ fontSize: "0.9rem", color: "#475569", lineHeight: "2" }}>
+              <p style={{ margin: 0 }}><strong>Name:</strong>{user.name}</p>
               <p style={{ margin: 0 }}><strong>Roll No:</strong> ICFAI-2026-001</p>
               <p style={{ margin: 0 }}><strong>Course:</strong> B.Tech Computer Science</p>
-              <p style={{ margin: 0 }}><strong>Status:</strong> Active Student</p>
             </div>
             <button
               onClick={() => setShowProfileBox(false)}

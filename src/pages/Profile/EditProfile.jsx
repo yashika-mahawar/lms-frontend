@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EditProfile = () => {
-  const [formData, setFormData] = useState({ 
-    name: 'Yashika', 
-    email: 'yashika@icfai.edu', 
-    phone: '9876543210' 
+  // 1. Initial state ab localStorage se aayegi
+  const [formData, setFormData] = useState(() => {
+    const savedUser = localStorage.getItem("currentUser");
+    return savedUser ? JSON.parse(savedUser) : { name: '', email: '', phone: '' };
   });
+
   const [msg, setMsg] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simple validation
-    if (formData.phone.length !== 10 || isNaN(formData.phone)) {
+    
+    if (formData.phone && (formData.phone.length !== 10 || isNaN(formData.phone))) {
       setMsg('Error: Phone number must be 10 digits!');
       return;
     }
+
+    // 2. Save Changes karte hi localStorage update karo
+    localStorage.setItem("currentUser", JSON.stringify(formData));
+    
     setMsg('Profile Updated Successfully!');
-    // Msg ko 3 seconds baad hataane ke liye
     setTimeout(() => setMsg(''), 3000);
   };
 
-  // Common input style
   const inputStyle = {
     width: '100%',
     padding: '12px',
@@ -61,7 +64,7 @@ const EditProfile = () => {
         <label style={{ fontSize: '0.8rem', fontWeight: '600', color: '#475569' }}>Phone Number</label>
         <input 
           type="text" 
-          value={formData.phone} 
+          value={formData.phone || ""} 
           onChange={e => setFormData({...formData, phone: e.target.value})} 
           style={inputStyle}
         />
