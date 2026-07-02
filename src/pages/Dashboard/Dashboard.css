@@ -1,178 +1,84 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
-.dashboard {
-  display: flex;
+.dashboard-container {
   min-height: 100vh;
-  background: #f4f6fb;
-  color: #1f2937;
+  background-color: #f8fafc;
+  color: #334155;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* SIDEBAR */
-.sidebar {
-  width: 260px;
-  background: #0f172a;
-  color: white;
-  padding: 25px;
+.dashboard-main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 25px;
+.dashboard-section {
+  margin-bottom: 32px;
 }
 
-.profile {
-  text-align: center;
-  margin-bottom: 30px;
-  padding: 15px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 12px;
-}
-
-.avatar {
-  font-size: 40px;
-}
-
-.profile h3 {
-  margin-top: 10px;
-}
-
-.profile p {
-  font-size: 12px;
-  color: #cbd5e1;
-}
-
-.sidebar nav {
+.section-header-flex {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.sidebar a {
-  color: #cbd5e1;
-  text-decoration: none;
-  padding: 10px;
-  border-radius: 8px;
-  transition: 0.3s;
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.sidebar a:hover {
-  background: #1e293b;
-  color: white;
-}
-
-/* MAIN */
-.main {
-  flex: 1;
-  padding: 30px;
-}
-
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, #4f46e5, #06b6d4);
-  color: white;
-  padding: 25px;
-  border-radius: 15px;
-}
-
-.header h1 {
-  font-size: 28px;
-}
-
-.header p {
-  margin-top: 5px;
-  opacity: 0.9;
-}
-
-.actions {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-
-.actions button {
-  padding: 10px 14px;
+.view-all-btn {
+  background: none;
   border: none;
-  border-radius: 8px;
+  color: #4f46e5;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
-/* STATS */
-.stats {
+/* 4 Items wide grid layout for CourseCards */
+.courses-grid-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin: 25px 0;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 24px;
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+/* Two-column balance setup for child metrics */
+.dashboard-split-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 32px;
+  margin-bottom: 32px;
 }
 
-.card h2 {
-  color: #4f46e5;
-}
-
-/* SECTION */
-.section {
-  margin-bottom: 25px;
-}
-
-.section h2 {
-  margin-bottom: 15px;
-}
-
-/* COURSE */
-.course {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.course-info h3 {
-  margin-bottom: 5px;
-}
-
-.bar {
-  width: 100%;
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 20px;
-  margin: 10px 0;
-}
-
-.fill {
-  height: 100%;
-  background: linear-gradient(90deg, #22c55e, #06b6d4);
-  border-radius: 20px;
-}
-
-/* UPCOMING */
-.item {
-  background: white;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+.grid-column-stack {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* NOTICE */
-.notice {
-  background: #fff7ed;
-  padding: 12px;
-  border-left: 5px solid #f59e0b;
-  margin-bottom: 10px;
-  border-radius: 8px;
+.component-card-wrapper {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+
+/* Media Queries for Desktop responsiveness */
+@media (min-width: 640px) {
+  .courses-grid-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .courses-grid-layout {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .dashboard-split-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

@@ -14,91 +14,25 @@ import Course10 from "../../assets/Course10.jpeg";
 
 function CourseCard() {
   const courses = [
-    {
-      id: 1,
-      title: "B.Tech Computer Science",
-      description:
-        "Learn programming, AI, Data Science and Software Development.",
-      duration: "4 Years",
-      fee: "₹49,999",
-      image: Course1,
-    },
-    {
-      id: 2,
-      title: "MBA",
-      description: "Develop leadership and business management skills.",
-      duration: "2 Years",
-      fee: "₹69,999",
-      image: Course2,
-    },
-    {
-      id: 3,
-      title: "BCA",
-      description: "Learn Web Development, Programming and Databases.",
-      duration: "3 Years",
-      fee: "₹39,999",
-      image: Course3,
-    },
-    {
-      id: 4,
-      title: "MCA",
-      description: "Advanced programming, software development & systems.",
-      duration: "2 Years",
-      fee: "₹45,999",
-      image: Course4,
-    },
-    {
-      id: 5,
-      title: "M.Tech",
-      description: "Advanced engineering, AI systems & research skills.",
-      duration: "2 Years",
-      fee: "₹79,999",
-      image: Course5,
-    },
-    {
-      id: 6,
-      title: "LLB",
-      description: "Law studies, legal systems & courtroom practice.",
-      duration: "3 Years",
-      fee: "₹59,999",
-      image: Course6,
-    },
-    {
-      id: 7,
-      title: "BA",
-      description: "Arts, humanities, communication & social sciences.",
-      duration: "3 Years",
-      fee: "₹29,999",
-      image: Course7,
-    },
-    {
-      id: 8,
-      title: "B.Com",
-      description: "Commerce, accounting, finance & business studies.",
-      duration: "3 Years",
-      fee: "₹34,999",
-      image: Course8,
-    },
-    {
-      id: 9,
-      title: "Diploma in IT",
-      description: "Practical IT skills, networking & development basics.",
-      duration: "2 Years",
-      fee: "₹19,999",
-      image: Course9,
-    },
-    {
-      id: 10,
-      title: "Cyber Security",
-      description: "Ethical hacking, security systems & cyber defense.",
-      duration: "1 Year",
-      fee: "₹24,999",
-      image: Course10,
-    },
+    { id: 1, title: "B.Tech Computer Science", description: "Learn programming, AI, Data Science and Software Development.", duration: "4 Years", fee: "₹49,999", image: Course1 },
+    { id: 2, title: "MBA", description: "Develop leadership and business management skills.", duration: "2 Years", fee: "₹69,999", image: Course2 },
+    { id: 3, title: "BCA", description: "Learn Web Development, Programming and Databases.", duration: "3 Years", fee: "₹39,999", image: Course3 },
+    { id: 4, title: "MCA", description: "Advanced programming, software development & systems.", duration: "2 Years", fee: "₹45,999", image: Course4 },
+    { id: 5, title: "M.Tech", description: "Advanced engineering, AI systems & research skills.", duration: "2 Years", fee: "₹79,999", image: Course5 },
+    { id: 6, title: "LLB", description: "Law studies, legal systems & courtroom practice.", duration: "3 Years", fee: "₹59,999", image: Course6 },
+    { id: 7, title: "BA", description: "Arts, humanities, communication & social sciences.", duration: "3 Years", fee: "₹29,999", image: Course7 },
+    { id: 8, title: "B.Com", description: "Commerce, accounting, finance & business studies.", duration: "3 Years", fee: "₹34,999", image: Course8 },
+    { id: 9, title: "Diploma in IT", description: "Practical IT skills, networking & development basics.", duration: "2 Years", fee: "₹19,999", image: Course9 },
+    { id: 10, title: "Cyber Security", description: "Ethical hacking, security systems & cyber defense.", duration: "1 Year", fee: "₹24,999", image: Course10 },
   ];
 
+  // Ye function save karega
+  const handleViewDetails = (course) => {
+    localStorage.setItem("lastCourse", JSON.stringify(course));
+  };
+
   return (
-    <section className="courses-section">
+    <section className="courses-section" id="courses">
       <h2 className="course-heading">Our Popular Courses</h2>
       <p className="course-subheading">
         Explore industry-oriented programs offered by ICFAI University.
@@ -122,13 +56,15 @@ function CourseCard() {
                 </span>
               </div>
 
+              {/* Yahan humne function call kiya hai */}
               <Link
-  to="/course-details"
-  className="course-btn"
-  state={{ course }}
->
-  View Details
-</Link>
+                to="/course-details"
+                className="course-btn"
+                state={{ course }}
+                onClick={() => handleViewDetails(course)}
+              >
+                View Details
+              </Link>
             </div>
           </div>
         ))}

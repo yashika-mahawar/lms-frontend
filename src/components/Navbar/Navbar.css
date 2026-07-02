@@ -82,6 +82,7 @@
     font-size:14px;
     font-weight:600;
     transition:.3s;
+    height:40px;
 }
 
 .login-btn:hover{

@@ -26,10 +26,12 @@ through expert faculty, modern learning resources,
 live classes, and career-focused programs.
         </p>
 
-        <div className="hero-buttons">
-          <button className="primary-btn">Enroll Now</button>
-          <button className="secondary-btn">Explore Courses</button>
-        </div>
+       
+<div className="hero-buttons">
+  <a href="#courses" style={{ textDecoration: 'none' }}>
+    <button className="secondary-btn">Explore Courses</button>
+  </a>
+</div>
 
         <div className="hero-stats">
           <div className="stat">

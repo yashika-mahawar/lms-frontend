@@ -1,132 +1,55 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Payment.css";
 import { enrollCourse } from "../../utils/enroll";
 
 function Payment() {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [loading, setLoading] = useState(false);
   const course = location.state?.course;
-  const [method, setMethod] = useState("upi");
 
-  // safety check
-  if (!course) {
-    return <h2 style={{ textAlign: "center" }}>No Course Selected</h2>;
-  }
+  if (!course) return <h2 style={{textAlign:'center', marginTop:'100px'}}>No Course Selected</h2>;
 
-  const handlePayment = () => {
-    // 🔥 SAVE COURSE TO MY COURSES
-    enrollCourse(course);
-
-    // 🔥 GO TO SUCCESS PAGE
-    navigate("/payment-success", { state: { course } });
+  const handlePayment = async () => {
+    setLoading(true);
+    // Simulating API call - Real backend ke liye isse hata dena
+    setTimeout(async () => {
+      enrollCourse(course);
+      navigate("/payment-success", { state: { course } });
+      setLoading(false);
+    }, 1500);
   };
 
   return (
     <div className="payment-page">
-      <h1>Complete Your Payment</h1>
-
+      <h1>Complete Enrollment</h1>
       <div className="payment-container">
-
-        {/* LEFT SIDE */}
         <div className="payment-left">
-          <h2>🎓 Selected Course</h2>
-
+          <h2>🎓 Your Selection</h2>
           <div className="course-box">
             <h3>{course.title}</h3>
-            <p>Duration: {course.duration}</p>
+            <p><strong>Duration:</strong> {course.duration}</p>
             <p className="price">{course.fee}</p>
           </div>
-
-          <div className="summary">
-            <p>Subtotal: {course.fee}</p>
-            <p>GST: ₹0</p>
-            <hr />
-            <h3>Total: {course.fee}</h3>
-          </div>
         </div>
 
-        {/* RIGHT SIDE */}
         <div className="payment-right">
-          <h2>💳 Payment Method</h2>
-
-          <div className="payment-options">
-            <button
-              className={method === "upi" ? "active" : ""}
-              onClick={() => setMethod("upi")}
-            >
-              UPI
-            </button>
-
-            <button
-              className={method === "card" ? "active" : ""}
-              onClick={() => setMethod("card")}
-            >
-              Card
-            </button>
-
-            <button
-              className={method === "netbanking" ? "active" : ""}
-              onClick={() => setMethod("netbanking")}
-            >
-              Net Banking
-            </button>
-          </div>
-
-          {/* UPI */}
-          {method === "upi" && (
-            <div className="form-box">
-              <input type="text" placeholder="Enter UPI ID (example@upi)" />
-
-              <button onClick={handlePayment}>
-                Pay via UPI
-              </button>
-            </div>
-          )}
-
-          {/* CARD */}
-          {method === "card" && (
-            <div className="form-box">
-              <input type="text" placeholder="Card Holder Name" />
-              <input type="text" placeholder="Card Number" />
-
-              <div className="row">
-                <input type="text" placeholder="Expiry" />
-                <input type="text" placeholder="CVV" />
-              </div>
-
-              <button onClick={handlePayment}>
-                Pay by Card
-              </button>
-            </div>
-          )}
-
-          {/* NET BANKING */}
-          {method === "netbanking" && (
-            <div className="form-box">
-              <select>
-                <option>Select Bank</option>
-                <option>SBI</option>
-                <option>HDFC</option>
-                <option>ICICI</option>
-                <option>Axis Bank</option>
-              </select>
-
-              <button onClick={handlePayment}>
-                Pay via Net Banking
-              </button>
-            </div>
-          )}
-
-          <p className="note">
-            🔒 Secure payment powered by ICFAI LMS System
-          </p>
+          <h2>💳 Secure Checkout</h2>
+          <p style={{color:'#64748b', marginBottom:'20px'}}>You are one step away from starting your learning journey.</p>
+          
+          <button 
+            className="pay-now-btn" 
+            onClick={handlePayment} 
+            disabled={loading}
+          >
+            {loading ? "Processing..." : `Pay ${course.fee} Securely`}
+          </button>
+          <p className="note">🔒 100% Secure Payment | Powered by Razorpay</p>
         </div>
-
       </div>
     </div>
   );
 }
-
 export default Payment;

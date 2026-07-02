@@ -1,39 +1,45 @@
+/* CourseCard.css */
+
 .courses-section {
   padding: 40px;
   text-align: center;
   background: #f7f7f7;
 }
 
-/* wrapper = scroll container */
-.course-wrapper {
-  position: relative;
-  max-width: 1200px;
-  margin: auto;
+.course-heading {
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-/* horizontal scroll only */
+.course-subheading {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Container for cards */
 .course-container {
   display: flex;
   gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 10px;
-
-  /* hide scrollbar */
-  scrollbar-width: none;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
 }
 
 .course-container::-webkit-scrollbar {
-  display: none;
+  display: none; /* Hide scrollbar Chrome/Safari */
 }
 
-/* card */
+/* Card Styling */
 .course-card {
-  flex: 0 0 calc(25% - 15px); /* 4 cards visible */
+  flex: 0 0 calc(25% - 20px); /* Adjusts width for 4 cards */
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column; /* Vertical alignment */
+  transition: transform 0.3s ease;
 }
 
 .course-card img {
@@ -43,44 +49,47 @@
 }
 
 .course-content {
-  padding: 15px;
+  padding: 20px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Fills empty space */
 }
 
+.course-content h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+}
+
+.course-content p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Details and Button Alignment */
 .course-details {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
-  font-size: 14px;
+  margin-top: auto; /* Pushes content to the bottom */
+  padding: 10px 0;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
 }
 
 .course-btn {
   display: inline-block;
-  padding: 8px 12px;
+  margin-top: 15px;
+  padding: 10px 16px;
   background: #007bff;
   color: white;
   border-radius: 6px;
   text-decoration: none;
+  text-align: center;
+  font-weight: 500;
+  transition: background 0.3s ease;
 }
 
-/* arrows */
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: black;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.arrow.left {
-  left: -15px;
-}
-
-.arrow.right {
-  right: -15px;
+.course-btn:hover {
+  background: #0056b3;
 }
