@@ -42,11 +42,13 @@ function Sidebar({ isAdmin }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo" style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
-        <img 
-          src="icfailogo.png" 
-          alt="University Logo" 
-          style={{ width: '160px', height: 'auto' }} 
-        />
+       
+
+<img 
+  src="/icfailogo.png"  // Bas shuru mein ek slash (/) lagana hai
+  alt="University Logo" 
+  style={{ width: '160px', height: 'auto' }} 
+/>
       </div>
 
       <nav>
