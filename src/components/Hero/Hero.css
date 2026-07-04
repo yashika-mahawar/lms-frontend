@@ -3,80 +3,184 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* Padding badhai taaki content screen ke beech mein "bada" dikhe */
-  padding: 80px 10%;
-  min-height: 85vh;
+  padding-left:80px;
+  min-height: 100vh;
   background: #f8fafc;
   overflow: hidden;
   font-family: system-ui;
-  gap: 80px; /* Left aur Right ke beech ka gap badhaya */
 }
 
-/* ---------------- LEFT SIDE (Bada Look) ---------------- */
+/* ---------------- LEFT ---------------- */
 .hero-left {
-  flex: 1.5; /* Left section ko zyada space diya */
+  flex: 1;
   z-index: 2;
+
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 18px;
 }
 
 .hero-left h1 {
-  font-size: 68px; /* Font size bada kiya */
-  line-height: 1.1;
+  font-size: 52px;
+  line-height: 1.2;
   color: #0f172a;
-  margin-bottom: 25px;
+}
+
+.hero-left h1 span {
+  color: #2563eb;
 }
 
 .hero-left p {
-  font-size: 19px; /* Paragraph bada aur readable kiya */
+  margin-top: 15px;
+  max-width: 500px;
   color: #475569;
-  max-width: 650px; /* Width badhayi taaki lines zyada na tootein */
-  line-height: 1.6;
+  font-size: 16px;
 }
 
 /* ---------------- BUTTONS ---------------- */
 .hero-buttons {
-  margin-top: 35px;
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
 }
 
 .secondary-btn {
-  padding: 16px 40px; /* Button bada aur attractive kiya */
-  font-size: 17px;
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn:hover {
+  background: #eff6ff;
 }
 
 /* ---------------- STATS ---------------- */
 .hero-stats {
-  margin-top: 50px;
-  gap: 60px; /* Stats ke beech ka space badhaya */
+  margin-top: 40px;
+  display: flex;
+  gap: 30px;
 }
 
 .stat h3 {
-  font-size: 36px; /* Stats bold aur bade kiye */
+  font-size: 22px;
   color: #0f172a;
 }
 
-/* ---------------- RIGHT SIDE (Image Wrapper) ---------------- */
+.stat p {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ---------------- RIGHT ---------------- */
 .hero-right {
   flex: 1;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .image-wrapper {
-  width: 500px; /* Image size bada kiya */
-  height: 520px;
-  border-radius: 40px;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 30px;
   background: linear-gradient(135deg, #dbeafe, #eff6ff);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  border-radius: 30px;
+}
+
+/* ---------------- FLOATING CARDS ---------------- */
+.floating-card {
+  position: absolute;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  font-size: 13px;
+  font-weight: 500;
+  animation: float 3s ease-in-out infinite;
+}
+
+.card1 {
+  top: 10%;
+  left: 5%;
+}
+
+.card2 {
+  bottom: 15%;
+  left: 0;
+}
+
+.card3 {
+  top: 40%;
+  right: -10%;
+}
+
+/* ---------------- BACKGROUND BLUR BLOBS ---------------- */
+.blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.blob1 {
+  background: #93c5fd;
+  top: -50px;
+  left: -80px;
+}
+
+.blob2 {
+  background: #a5b4fc;
+  bottom: -80px;
+  right: -80px;
+}
+
+/* ---------------- ANIMATION ---------------- */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
 /* ---------------- RESPONSIVE ---------------- */
@@ -84,6 +188,31 @@
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 60px 5%;
   }
+
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero-right {
+    margin-top: 40px;
+  }
+
+  .card3 {
+    right: 10px;
+  }
+}
+.image-wrapper {
+  width: 400px;
+  height: 430px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* better than contain */
 }
