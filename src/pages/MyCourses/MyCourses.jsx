@@ -9,8 +9,9 @@ const MyCourses = () => {
   const [myEnrolledCourses, setMyEnrolledCourses] = useState([]);
 
   useEffect(() => {
-    // LocalStorage se dynamically data fetch karo
-    const savedCourses = JSON.parse(localStorage.getItem("myCourses")) || [];
+    // IMPORTANT: Yahan key ka naam "enrolledCourses" hona chahiye 
+    // jo humne CourseDetails mein use kiya hai
+    const savedCourses = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
     setMyEnrolledCourses(savedCourses);
   }, []);
 
@@ -32,13 +33,12 @@ const MyCourses = () => {
           {myEnrolledCourses.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '50px', color: '#64748b' }}>
               <h3>No courses enrolled yet!</h3>
-              <p>Go to the store and enroll in your favorite course.</p>
+              <p>Go to the courses section and enroll in your favorite program.</p>
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
               {myEnrolledCourses.map((course) => (
                 <div key={course.id} className="course-card" style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
-                  {/* Dynamic Image handle karna */}
                   <img src={course.image} alt={course.title} style={{ width: '100%', height: '160px', objectFit: 'cover' }} />
                   
                   <div style={{ padding: '20px' }}>
@@ -48,14 +48,14 @@ const MyCourses = () => {
                       <FaClock /> <span>{course.duration || "Self Paced"}</span>
                     </div>
 
-                    {/* Progress Bar */}
+                    {/* Progress Bar - Agar progress nahi hai toh 0% dikhayega */}
                     <div style={{ marginBottom: '15px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: '600', marginBottom: '4px' }}>
                         <span>Progress</span>
-                        <span>{course.progress}%</span>
+                        <span>{course.progress || 0}%</span>
                       </div>
                       <div style={{ width: '100%', height: '6px', background: '#e2e8f0', borderRadius: '10px' }}>
-                        <div style={{ width: `${course.progress}%`, height: '100%', background: '#4f46e5', borderRadius: '10px' }}></div>
+                        <div style={{ width: `${course.progress || 0}%`, height: '100%', background: '#4f46e5', borderRadius: '10px' }}></div>
                       </div>
                     </div>
 

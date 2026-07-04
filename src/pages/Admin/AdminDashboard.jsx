@@ -1,9 +1,18 @@
 import React from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar'; 
+import WelcomeCard from '../Dashboard/WelcomeCard/WelcomeCard'; 
 import { FaUserGraduate, FaBook, FaVideo, FaBell, FaSearch, FaUserCircle, FaChartLine } from 'react-icons/fa';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
+  // Stats ko array mein rakha taaki code clean rahe
+  const stats = [
+    { title: "Total Students", value: "1,284", icon: <FaUserGraduate />, color: "#4318ff" },
+    { title: "Active Courses", value: "42", icon: <FaBook />, color: "#05cd99" },
+    { title: "Live Sessions", value: "12", icon: <FaVideo />, color: "#ffb547" },
+    { title: "Monthly Growth", value: "+15%", icon: <FaChartLine />, color: "#ef4444" }
+  ];
+
   return (
     <div className="admin-wrapper">
       <div className="sidebar-container">
@@ -13,55 +22,61 @@ const AdminDashboard = () => {
       <main className="admin-main">
         {/* Professional Header */}
         <header className="top-header">
-    <div className="search-bar">
-        <FaSearch color="#64748b" />
-        <input type="text" placeholder="Search anything..." />
-    </div>
-    
-    <div className="header-actions">
-        {/* Notification Bell with a red dot indicator */}
-        <div style={{ position: 'relative' }}>
-            <FaBell className="action-icon" />
-            <span style={{ 
-                position: 'absolute', top: '-5px', right: '-5px', 
-                width: '10px', height: '10px', background: '#ef4444', 
-                borderRadius: '50%', border: '2px solid white' 
-            }}></span>
-        </div>
-        
-        <div className="profile-mini">
-            <FaUserCircle size={32} color="#4318ff" />
-            <span>Admin</span>
-        </div>
-    </div>
-</header>
+          <div className="search-bar">
+            <FaSearch color="#64748b" />
+            <input type="text" placeholder="Search students, courses..." />
+          </div>
+          <div className="header-actions">
+            <div className="notification-icon">
+              <FaBell />
+              <span className="dot"></span>
+            </div>
+            <div className="profile-mini">
+              <FaUserCircle size={32} color="#4318ff" />
+              <span>Admin</span>
+            </div>
+          </div>
+        </header>
 
-        <h1>Dashboard Overview</h1>
+        <WelcomeCard isAdmin={true} />
 
-        {/* Stats Grid */}
+        {/* Header section with text */}
+        <div className="dash-header">
+          <h1>Dashboard Overview</h1>
+          <p>Welcome back, here is what's happening today.</p>
+        </div>
+
+        {/* Improved Stats Grid */}
         <section className="stats-grid">
-            <div className="card"><FaUserGraduate className="icon" /><h3>Total Students</h3><p className="value">1,284</p></div>
-            <div className="card"><FaBook className="icon" /><h3>Active Courses</h3><p className="value">42</p></div>
-            <div className="card"><FaVideo className="icon" /><h3>Live Sessions</h3><p className="value">12</p></div>
-            <div className="card"><FaChartLine className="icon" /><h3>Monthly Growth</h3><p className="value">+15%</p></div>
+          {stats.map((item, index) => (
+            <div className="card" key={index}>
+              <div className="icon" style={{ color: item.color }}>{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p className="value">{item.value}</p>
+            </div>
+          ))}
         </section>
 
-        {/* Tables & Notices */}
+        {/* Bottom Section */}
         <div className="bottom-sections">
-            <section className="recent-students">
-                <h3>Recent Enrollments</h3>
-                <table>
-                    <thead><tr><th>Student</th><th>Course</th><th>Status</th></tr></thead>
-                    <tbody>
-                        <tr><td>Yashika</td><td>Full Stack</td><td className="status-done">Active</td></tr>
-                        <tr><td>Rahul</td><td>Data Science</td><td className="status-done">Active</td></tr>
-                    </tbody>
-                </table>
-            </section>
-            <section className="quick-actions">
-                <h3>Notices</h3>
-                <div className="notice">System update at 2 AM.</div>
-            </section>
+          <section className="recent-students">
+            <h3>Recent Enrollments</h3>
+            <table>
+              <thead>
+                <tr><th>Student</th><th>Course</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Yashika</td><td>Full Stack</td><td className="status-done">Active</td></tr>
+                <tr><td>Rahul</td><td>Data Science</td><td className="status-done">Active</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section className="quick-actions">
+            <h3>Notices</h3>
+            <div className="notice">System maintenance update at 2 AM.</div>
+            <div className="notice">New course approved: AI Masterclass.</div>
+          </section>
         </div>
       </main>
     </div>

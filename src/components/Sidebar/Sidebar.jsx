@@ -1,5 +1,5 @@
 import "./Sidebar.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaBookOpen,
@@ -16,6 +16,7 @@ import {
 
 function Sidebar({ isAdmin }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // 1. Student Menu Items
   const studentMenu = [
@@ -30,25 +31,33 @@ function Sidebar({ isAdmin }) {
   // 2. Admin Menu Items
   const adminMenu = [
     { name: "Dashboard", path: "/admin", icon: <FaHome /> },
-    { name: "Manage Courses", path: "/admin/courses", icon: <FaBookOpen /> },
+    // 🔥 Yahan path update kar diya hai:
+    { name: "Manage Courses", path: "/admin/manage-courses", icon: <FaBookOpen /> }, 
     { name: "Manage Videos", path: "/admin/videos", icon: <FaPlus /> },
     { name: "Manage Students", path: "/admin/students", icon: <FaUsers /> },
-    { name: "Schedule Class", path: "/admin/classes", icon: <FaCalendarAlt /> },
-    { name: "Reports", path: "/admin/reports", icon: <FaFileAlt /> },
   ];
 
   const menuItems = isAdmin ? adminMenu : studentMenu;
 
+  // Logout ka secure handle
+  const handleLogout = () => {
+    if (isAdmin) {
+      localStorage.removeItem("isAdmin"); 
+      navigate("/admin/login");
+    } else {
+      localStorage.removeItem("user"); 
+      navigate("/login");
+    }
+  };
+
   return (
     <aside className="sidebar">
       <div className="sidebar-logo" style={{ padding: '20px', display: 'flex', justifyContent: 'center' }}>
-       
-
-<img 
-  src="/icfailogo.png"  // Bas shuru mein ek slash (/) lagana hai
-  alt="University Logo" 
-  style={{ width: '160px', height: 'auto' }} 
-/>
+        <img 
+          src="/icfailogo.png" 
+          alt="University Logo" 
+          style={{ width: '160px', height: 'auto' }} 
+        />
       </div>
 
       <nav>
@@ -66,10 +75,11 @@ function Sidebar({ isAdmin }) {
 
       {/* Logout Section */}
       <div style={{ marginTop: "auto", paddingBottom: "20px" }}>
-        <Link 
-          to={isAdmin ? "/admin/login" : "/login"} 
+        <div 
+          onClick={handleLogout} 
           className="logout-btn" 
           style={{ 
+            cursor: 'pointer',
             textDecoration: 'none', 
             display: 'flex', 
             alignItems: 'center', 
@@ -85,7 +95,7 @@ function Sidebar({ isAdmin }) {
         >
           <FaSignOutAlt />
           <span>Logout</span>
-        </Link>
+        </div>
       </div>
     </aside>
   );

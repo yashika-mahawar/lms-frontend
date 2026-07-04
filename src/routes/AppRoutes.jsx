@@ -18,7 +18,9 @@ import Progress from '../pages/Dashboard/Progress/Progress';
 // 🔥 NEW: Admin Pages Import
 import AdminLogin from "../pages/Admin/AdminLogin";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
-
+import ManageCourses from "../pages/Admin/ManageCourses"; // Import added
+import ManageVideos from "../pages/Admin/ManageVideos";
+import ManageStudents from "../pages/Admin/ManageStudents";
 function AppRoutes() {
   return (
     <Routes>
@@ -40,9 +42,12 @@ function AppRoutes() {
       <Route path="/learning" element={<Learning />} />
       <Route path="/live-classes" element={<LiveClass />} />
       
-      {/* 🔥 ADMIN ROUTES ADDED */}
+      {/* 🔥 ADMIN ROUTES */}
       <Route path="/admin/login" element={<AdminLogin />} />
-  <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/manage-courses" element={<ManageCourses />} />
+      <Route path="/admin/videos" element={<ManageVideos />} />
+      <Route path="/admin/students" element={<ManageStudents />} />
     </Routes>
   );
 }
