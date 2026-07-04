@@ -3,20 +3,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* Fixed spelling and optimized padding for better balance */
-  padding: 40px 10%;
-  /* Changed to min-height: 80vh to reduce extra white space */
-  min-height: 80vh;
+  padding-left:80px;
+  min-height: 100vh;
   background: #f8fafc;
   overflow: hidden;
   font-family: system-ui;
-  gap: 40px;
 }
 
 /* ---------------- LEFT ---------------- */
 .hero-left {
   flex: 1;
   z-index: 2;
+
 }
 
 .hero-tag {
@@ -112,21 +110,20 @@
 }
 
 .image-wrapper {
-  width: 400px;
-  height: 430px;
+  width: 1000px;
+  height: 1000px;
   border-radius: 30px;
   background: linear-gradient(135deg, #dbeafe, #eff6ff);
-  box-shadow: 0 30px 70px rgba(0,0,0,0.12);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 30px;
 }
 
@@ -142,9 +139,20 @@
   animation: float 3s ease-in-out infinite;
 }
 
-.card1 { top: 10%; left: 5%; }
-.card2 { bottom: 15%; left: 0; }
-.card3 { top: 40%; right: -5%; }
+.card1 {
+  top: 10%;
+  left: 5%;
+}
+
+.card2 {
+  bottom: 15%;
+  left: 0;
+}
+
+.card3 {
+  top: 40%;
+  right: -10%;
+}
 
 /* ---------------- BACKGROUND BLUR BLOBS ---------------- */
 .blob {
@@ -156,8 +164,17 @@
   opacity: 0.5;
 }
 
-.blob1 { background: #93c5fd; top: -50px; left: -80px; }
-.blob2 { background: #a5b4fc; bottom: -80px; right: -80px; }
+.blob1 {
+  background: #93c5fd;
+  top: -50px;
+  left: -80px;
+}
+
+.blob2 {
+  background: #a5b4fc;
+  bottom: -80px;
+  right: -80px;
+}
 
 /* ---------------- ANIMATION ---------------- */
 @keyframes float {
@@ -171,7 +188,6 @@
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 40px 5%;
   }
 
   .hero-stats {
@@ -185,4 +201,18 @@
   .card3 {
     right: 10px;
   }
+}
+.image-wrapper {
+  width: 400px;
+  height: 430px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* better than contain */
 }
