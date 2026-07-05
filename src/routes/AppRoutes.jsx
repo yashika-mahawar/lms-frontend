@@ -14,19 +14,22 @@ import Learning from "../pages/Learning/Learning";
 import LiveClass from "../pages/LiveClass/LiveClass"; 
 import Assignments from '../pages/Dashboard/Assignments/Assignments';
 import Progress from '../pages/Dashboard/Progress/Progress';
+import Admission from "../pages/Admissions/Admissions"; // ✅ Import Added
 
 // 🔥 NEW: Admin Pages Import
 import AdminLogin from "../pages/Admin/AdminLogin";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
-import ManageCourses from "../pages/Admin/ManageCourses"; // Import added
+import ManageCourses from "../pages/Admin/ManageCourses";
 import ManageVideos from "../pages/Admin/ManageVideos";
 import ManageStudents from "../pages/Admin/ManageStudents";
+
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/admissions" element={<Admission />} /> {/* ✅ Route Added */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/dashboard" element={<Dashboard />} />
