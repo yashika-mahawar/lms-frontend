@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./PaymentSuccess.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Confetti from 'react-confetti';
+import { enrollCourse } from "../../utils/enroll"; // ✅ Import Added
 
 function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
   const course = location.state?.course;
+
+  // ✅ SECURITY FIX: Enrollment sirf success page load hone par trigger hogi
+  useEffect(() => {
+    if (course) {
+      enrollCourse(course);
+    }
+  }, [course]);
+
+  // Agar bina payment kiye koi direct is page pe aaye
+  if (!course) {
+    return (
+      <div className="success-page">
+        <div className="success-card">
+          <h1>Oops! 🚫</h1>
+          <p>No payment record found.</p>
+          <button className="primary-btn" onClick={() => navigate("/")}>
+            Back to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="success-page">
@@ -14,14 +37,14 @@ function PaymentSuccess() {
       <div className="success-card">
         <div className="check">✔</div>
         <h1>Payment Successful! 🎉</h1>
-        <p>Your enrollment is confirmed.</p>
+        <p>Your enrollment in <strong>{course.title}</strong> is confirmed.</p>
 
         {course && (
           <div className="course-info">
-            <h3>{course.title}</h3>
             <div className="receipt-details">
-              <p>Order ID: #RZP_{Math.floor(Math.random() * 900000)}</p>
-              <p>Date: {new Date().toLocaleDateString()}</p>
+              <p><strong>Order ID:</strong> #RZP_{Math.floor(Math.random() * 900000)}</p>
+              <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
+              <p><strong>Status:</strong> Completed</p>
             </div>
           </div>
         )}
@@ -33,4 +56,5 @@ function PaymentSuccess() {
     </div>
   );
 }
+
 export default PaymentSuccess;

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Payment.css";
-import { enrollCourse } from "../../utils/enroll";
 
 function Payment() {
   const navigate = useNavigate();
@@ -10,16 +9,63 @@ function Payment() {
   const [loading, setLoading] = useState(false);
   const course = location.state?.course;
 
-  if (!course) return <h2 style={{textAlign:'center', marginTop:'100px'}}>No Course Selected</h2>;
+  useEffect(() => {
+    if (!course) {
+      navigate("/");
+    }
+  }, [course, navigate]);
+
+  if (!course) return null;
 
   const handlePayment = async () => {
     setLoading(true);
-    // Simulating API call - Real backend ke liye isse hata dena
-    setTimeout(async () => {
-      enrollCourse(course);
-      navigate("/payment-success", { state: { course } });
+    try {
+      const { data } = await axios.post("http://localhost:5000/api/create-order", {
+        amount: course.fee,
+      });
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY,
+        amount: data.amount,
+        currency: "INR",
+        name: "ICFAI University",
+        description: `Enrollment for ${course.title}`,
+        order_id: data.id,
+        handler: async (response) => {
+          try {
+            const verify = await axios.post("http://localhost:5000/api/verify-payment", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verify.data.success) {
+              // Enrollment Success page par move kar di gai hai
+              navigate("/payment-success", { state: { course } });
+            }
+          } catch (err) {
+            navigate("/payment-failure");
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+          },
+          escape: true
+        },
+        theme: { color: "#2563eb" },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on('payment.failed', function (response){
+        navigate("/payment-failure");
+      });
+      rzp.open();
+    } catch (error) {
+      console.error("Payment Initiation Error:", error);
+      alert("Could not connect to payment server.");
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -34,17 +80,10 @@ function Payment() {
             <p className="price">{course.fee}</p>
           </div>
         </div>
-
         <div className="payment-right">
           <h2>💳 Secure Checkout</h2>
-          <p style={{color:'#64748b', marginBottom:'20px'}}>You are one step away from starting your learning journey.</p>
-          
-          <button 
-            className="pay-now-btn" 
-            onClick={handlePayment} 
-            disabled={loading}
-          >
-            {loading ? "Processing..." : `Pay ${course.fee} Securely`}
+          <button className="pay-now-btn" onClick={handlePayment} disabled={loading}>
+            {loading ? "Initializing Gateway..." : `Pay ${course.fee} Securely`}
           </button>
           <p className="note">🔒 100% Secure Payment | Powered by Razorpay</p>
         </div>
