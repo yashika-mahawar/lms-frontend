@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { loginUser } from "../../services/authService"; // Service import ki
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,38 +13,22 @@ function Login() {
     e.preventDefault();
     setLoading(true);
 
-    // DUMMY LOGIC (Jab tak backend nahi banta)
-    if (email === "test@gmail.com" && password === "1234") {
-      setLoading(false);
-      alert("Login Successful! (Testing Mode)");
-      navigate("/dashboard");
-      return;
-    }
-
-    // REAL BACKEND LOGIC (Jab backend ban jaye, toh ye code uncomment kar dena)
-    /*
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      // Real API call (ab ye authService.js ka use karega)
+      const res = await loginUser({ email, password });
 
       if (res.data.success) {
+        localStorage.setItem("token", res.data.token); // Token save kiya
         alert("Login Successful!");
         navigate("/dashboard");
       } else {
-        alert("Invalid Email or Password!");
+        alert(res.data.message || "Invalid Email or Password!");
       }
     } catch (err) {
-      alert("Login failed. Please check your credentials or server connection.");
+      alert("Login failed: " + (err.response?.data?.message || "Server connection error"));
     } finally {
       setLoading(false);
     }
-    */
-
-    // Temp error message kyunki backend abhi connected nahi hai
-    alert("Backend is not connected yet! Use: test@gmail.com / 1234");
-    setLoading(false);
   };
 
   return (

@@ -109,3 +109,45 @@
 }
 
 }
+/* =========================
+   Password Field
+========================= */
+
+.password-field {
+    position: relative;
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+.password-field input {
+    width: 100%;
+    padding: 14px;
+    padding-right: 50px;
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.password-field input:focus {
+    border-color: #002147;
+}
+
+.password-field span {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-field span:hover {
+    color: #002147;
+}

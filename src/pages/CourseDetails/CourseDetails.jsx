@@ -2,6 +2,7 @@ import "./CourseDetails.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
+import { enrollCourse } from "../../services/courseService"; // Service import ki
 
 function CourseDetails() {
   const navigate = useNavigate();
@@ -9,27 +10,21 @@ function CourseDetails() {
 
   const course = location.state?.course;
 
-  // Enroll ka logic with performance metrics
-  const handleEnroll = () => {
-    // 1. Current list lo
-    const existing = JSON.parse(localStorage.getItem("enrolledCourses") || "[]");
-    
-    // 2. Check karo ki enroll hai ya nahi
-    if (!existing.find(c => c.id === course.id)) {
-      // Yahan hum default performance metrics add kar rahe hain
-      const courseWithMetrics = { 
-        ...course, 
-        progress: 0,      // Default 0%
-        attendance: 90,   // Default 90%
-        cgpa: 8.5         // Default 8.5
-      };
-      
-      const updated = [...existing, courseWithMetrics];
-      localStorage.setItem("enrolledCourses", JSON.stringify(updated));
+  // Enroll ka logic - API Integration
+const handleEnroll = async () => {
+    if (!course) return;
+
+    try {
+      const res = await enrollCourse(course._id || course.id);
+      if (res.status === 200 || res.status === 201) {
+        alert("Enrollment Successful! 🎉");
+        navigate("/payment", { state: { course } });
+      }
+    } catch (err) {
+      // Yahan asli error dekho
+      console.log("FULL ERROR:", err.response); 
+      alert("Error: " + (err.response?.data?.message || "Check Console for details"));
     }
-    
-    // 3. Payment page par le jao
-    navigate("/payment", { state: { course } });
   };
 
   if (!course) {
@@ -47,7 +42,6 @@ function CourseDetails() {
   return (
     <>
       <Navbar />
-
       <section className="course-details">
         {/* LEFT IMAGE */}
         <div className="course-image">
@@ -56,17 +50,10 @@ function CourseDetails() {
 
         {/* RIGHT CONTENT */}
         <div className="course-info">
-          <span className="course-badge">
-            🎓 Admissions Open 2026
-          </span>
-
+          <span className="course-badge">🎓 Admissions Open 2026</span>
           <h1>{course.title}</h1>
+          <p className="course-text">{course.description}</p>
 
-          <p className="course-text">
-            {course.description}
-          </p>
-
-          {/* INFO CARDS */}
           <div className="info-grid">
             <div className="info-box">
               <h3>⏳ Duration</h3>
@@ -86,7 +73,6 @@ function CourseDetails() {
             </div>
           </div>
 
-          {/* HIGHLIGHTS */}
           <h2>✨ Course Highlights</h2>
           <ul className="highlights">
             <li>Industry-Oriented Curriculum</li>
@@ -97,15 +83,11 @@ function CourseDetails() {
             <li>Modern Computer Labs</li>
           </ul>
 
-          <button
-            className="enroll-btn"
-            onClick={handleEnroll} 
-          >
+          <button className="enroll-btn" onClick={handleEnroll}>
             Enroll Now
           </button>
         </div>
       </section>
-
       <Footer />
     </>
   );
